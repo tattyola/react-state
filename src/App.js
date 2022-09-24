@@ -1,59 +1,56 @@
 import {useState} from "react";
 
-const initialCounters = [
+const arr = [
     {
-        id: 123,
-        value: 10
-    },
-    {
-        id: 456,
+        id: 1,
         value: 100
     },
     {
-        id: 789,
+        id: 2,
         value: 1000
+    },
+    {
+        id: 3,
+        value: 10
     },
 ];
 
 function App() {
-
-    const [counts, setCounts] = useState(initialCounters)
-    const minus = (id) => {
-        console.log(id)
-        const updatedCounts = counts.map(el => el.id === id ? {...el, value: el.value - 1} : el);
-        setCounts(updatedCounts);
-    }
-
+   const [counter, setCounter] = useState(arr);
+   const minus = (id) => {
+       const updatedCounter = counter.map(el => el.id === id ? {...el, value: el.value - 1} : el)
+       setCounter(updatedCounter);
+   }
     const plus = (id) => {
-        console.log(id)
-        const updatedCounts = counts.map(el => el.id === id ? {...el, value: el.value + 1} : el);
-        setCounts(updatedCounts);
+        const updatedCounter = counter.map(el => el.id === id ? {...el, value: el.value + 1} : el)
+        setCounter(updatedCounter);
     }
-
     const addCounter = () => {
-        const newCount = {
-            id: Math.random(),
-            value: 0
-        };
-        setCounts([...counts, newCount])
+       const newEl = {
+           id: Math.random(),
+           value: 0
+       }
+        setCounter([...counter, newEl])
+    }
+    const deleteCounter = (id) => {
+        const updatedCounter = counter.filter(el => el.id !== id)
+        setCounter([...updatedCounter])
     }
 
     return (
-        <div className="App">
-
+        <div>
             <ul>
-                {counts.map(el => (
+                {counter.map(el =>
                     <li key={el.id}>
-                        <button onClick={() => minus(el.id)}>Minus</button>
+                        <button onClick={() => {minus(el.id)}}>Minus</button>
                         {el.value}
-                        <button onClick={() => plus(el.id)}>Plus</button>
+                        <button onClick={() => {plus(el.id)}}>Plus</button>
+                        <button onClick={() => deleteCounter(el.id)}>Delete</button>
                     </li>
-                ))}
+                )}
             </ul>
-
             <hr/>
             <button onClick={addCounter}>Add counter</button>
-
         </div>
     );
 }
